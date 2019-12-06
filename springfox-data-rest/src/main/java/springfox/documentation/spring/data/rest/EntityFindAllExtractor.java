@@ -24,7 +24,7 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -72,7 +72,7 @@ class EntityFindAllExtractor implements EntityOperationsExtractor {
           new HashSet<MediaType>(),
           handler,
           findAllParameters(context.getConfiguration(), context.getTypeResolver()),
-          resolver.resolve(Resources.class, repository.getReturnedDomainClass(handler.getMethod())));
+          resolver.resolve(CollectionModel.class, repository.getReturnedDomainClass(handler.getMethod())));
       handlers.add(new SpringDataRestRequestHandler(context, spec));
     }
     return handlers;

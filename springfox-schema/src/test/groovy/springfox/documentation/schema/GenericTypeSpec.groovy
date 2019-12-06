@@ -46,7 +46,7 @@ class GenericTypeSpec extends SchemaSpecification {
         alternateTypeProvider(),
         namingStrategy,
         ImmutableSet.builder().build())
-    def propertyLookup = ["GenericType": "genericField", "Resource": "links"]
+    def propertyLookup = ["GenericType": "genericField", "EntityModel": "links"]
 
     when:
     Model asInput = modelProvider.modelFor(inputContext).get()

@@ -1,5 +1,5 @@
 plugins {
-  id 'org.springframework.boot' version '1.5.11.RELEASE'
+  id 'org.springframework.boot' version '2.2.1.RELEASE'
 }
 
 repositories {
@@ -28,14 +28,14 @@ ext {
 }
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web")
-  compile("org.springframework.boot:spring-boot-starter-data-rest")
-  compile("org.springframework.boot:spring-boot-starter-data-jpa")
-  compile("com.h2database:h2")
+  compile("org.springframework.boot:spring-boot-starter-web:2.2.1.RELEASE")
+  compile("org.springframework.boot:spring-boot-starter-data-rest:2.2.1.RELEASE")
+  compile("org.springframework.boot:spring-boot-starter-data-jpa:2.2.1.RELEASE")
+  compile("com.h2database:h2:1.4.200")
 
   testCompile libs.test
   testCompile "org.skyscreamer:jsonassert:${jsonAssert}"
-  testCompile("org.springframework.boot:spring-boot-starter-test")
+  testCompile("org.springframework.boot:spring-boot-starter-test:2.2.1.RELEASE")
 
   compile project(':springfox-swagger1')
   compile project(':springfox-swagger2')
@@ -49,6 +49,7 @@ dependencies {
     exclude group: 'org.springframework', module: 'spring-web'
   }
 }
+
 // tag::update-contract-tests[]
 // NOTE: Uncomment to bulk update contracts
 //test {

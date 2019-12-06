@@ -22,8 +22,8 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import org.springframework.hateoas.RelProvider;
-import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.LinkRelationProvider;
 import springfox.documentation.builders.ModelPropertyBuilder;
 import springfox.documentation.schema.Model;
 import springfox.documentation.schema.ModelProperty;
@@ -43,12 +43,12 @@ import static springfox.documentation.schema.ResolvedTypes.*;
 class EmbeddedCollectionModelProvider implements SyntheticModelProviderPlugin {
 
   private final TypeResolver resolver;
-  private final RelProvider relProvider;
+  private final LinkRelationProvider relProvider;
   private final TypeNameExtractor typeNameExtractor;
 
   EmbeddedCollectionModelProvider(
       TypeResolver resolver,
-      RelProvider relProvider,
+      LinkRelationProvider relProvider,
       TypeNameExtractor typeNameExtractor) {
     this.resolver = resolver;
     this.relProvider = relProvider;
@@ -84,9 +84,9 @@ class EmbeddedCollectionModelProvider implements SyntheticModelProviderPlugin {
     Class<?> type = typeParameters.get(0).getErasedType();
     return newArrayList(
         new ModelPropertyBuilder()
-            .name(relProvider.getCollectionResourceRelFor(type))
+            .name(relProvider.getCollectionResourceRelFor(type).value())
             .type(resolver.resolve(List.class, type))
-            .qualifiedType(Resources.class.getName())
+            .qualifiedType(CollectionModel.class.getName())
             .position(0)
             .required(true)
             .isHidden(false)

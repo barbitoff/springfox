@@ -22,7 +22,7 @@ import com.fasterxml.classmate.TypeResolver;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -66,7 +66,7 @@ class EntityFindOneExtractor implements EntityOperationsExtractor {
               "id",
               pathAnnotations("id", handler),
               resolver.resolve(repository.getIdType()))),
-          resolver.resolve(Resource.class, repository.getReturnedDomainClass(handler.getMethod())));
+          resolver.resolve(EntityModel.class, repository.getReturnedDomainClass(handler.getMethod())));
       handlers.add(new SpringDataRestRequestHandler(context, spec));
     }
     return handlers;

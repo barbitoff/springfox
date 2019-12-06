@@ -75,7 +75,7 @@ public class EntityContext {
     Object domainType = resource.getDomainType();
     Java8OptionalToGuavaOptionalConverter converter = new Java8OptionalToGuavaOptionalConverter();
     Class actualDomainType = (Class) converter.convert(domainType).orNull();
-    return entities.getPersistentEntity(actualDomainType);
+    return entities.getPersistentEntity(actualDomainType).orElse(null);
   }
 
   public CrudMethods crudMethods() {

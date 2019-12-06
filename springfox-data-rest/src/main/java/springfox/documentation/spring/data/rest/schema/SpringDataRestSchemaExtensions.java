@@ -22,7 +22,7 @@ import com.fasterxml.classmate.TypeResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.hateoas.RelProvider;
+import org.springframework.hateoas.server.LinkRelationProvider;
 import springfox.documentation.schema.TypeNameExtractor;
 
 @Configuration
@@ -39,7 +39,7 @@ public class SpringDataRestSchemaExtensions {
   public EmbeddedCollectionModelProvider embeddedCollectionProvider(
       TypeResolver resolver,
       @Qualifier("_relProvider")
-          RelProvider relProvider,
+              LinkRelationProvider relProvider,
       TypeNameExtractor typeNameExtractor) {
     return new EmbeddedCollectionModelProvider(resolver, relProvider, typeNameExtractor);
   }

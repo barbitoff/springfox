@@ -23,10 +23,9 @@ import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Optional;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.mapping.MethodResourceMapping;
 import org.springframework.data.rest.core.mapping.SearchResourceMappings;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -51,7 +50,7 @@ class EntitySearchExtractor implements EntityOperationsExtractor {
     final PersistentEntity<?, ?> entity = context.entity();
     HandlerMethodResolver methodResolver = new HandlerMethodResolver(context.getTypeResolver());
     SearchResourceMappings searchMappings = context.searchMappings();
-    for (MethodResourceMapping mapping : searchMappings.getExportedMappings()) {
+    searchMappings.getExportedMappings().forEach(mapping -> {
       HandlerMethod handler = new HandlerMethod(
           context.getRepositoryInstance(),
           mapping.getMethod());
@@ -68,7 +67,7 @@ class EntitySearchExtractor implements EntityOperationsExtractor {
           transferResolvedMethodParameterList(methodResolver.methodParameters(handler)),
           inferReturnType(methodResolver, handler, context.getTypeResolver()));
       handlers.add(new SpringDataRestRequestHandler(context, spec));
-    }
+    });
     return handlers;
   }
 
@@ -79,11 +78,11 @@ class EntitySearchExtractor implements EntityOperationsExtractor {
       TypeResolver resolver) {
     ResolvedType returnType = methodResolver.methodReturnType(handler);
     if (Collections.isContainerType(returnType)) {
-      return resolver.resolve(Resources.class, Collections.collectionElementType(returnType));
+      return resolver.resolve(CollectionModel.class, Collections.collectionElementType(returnType));
     } else if (Types.isBaseType(returnType)) {
       return returnType;
     }
-    return resolver.resolve(Resource.class, returnType);
+    return resolver.resolve(EntityModel.class, returnType);
   }
 
   private List<ResolvedMethodParameter> transferResolvedMethodParameterList(List<ResolvedMethodParameter> srcList) {

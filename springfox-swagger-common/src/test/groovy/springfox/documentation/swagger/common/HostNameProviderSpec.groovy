@@ -32,6 +32,7 @@ class HostNameProviderSpec extends Specification {
     def request = Mock(HttpServletRequest.class)
     request.getHeader(X_FORWARDED_PREFIX) >> "/prefix"
     request.getHeaders(X_FORWARDED_PREFIX) >> headerValues()
+    request.getScheme() >> "http"
     request.headerNames >> headerNames()
     request.requestURL >> new StringBuffer("http://localhost/contextPath")
     request.requestURI >> new URI("http://localhost/contextPath")

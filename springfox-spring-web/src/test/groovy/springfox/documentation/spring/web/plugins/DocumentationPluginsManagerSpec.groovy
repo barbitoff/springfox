@@ -84,6 +84,7 @@ class DocumentationPluginsManagerSpec extends Specification {
       def operationContext = Mock(OperationContext)
     and:
       operationContext.operationBuilder() >> new OperationBuilder(new CachingOperationNameGenerator())
+      operationContext.getDocumentationType() >> Mock(DocumentationType)
     when:
       def sut = customWebPlugins()
       def operation = sut.operation(operationContext)
@@ -98,6 +99,7 @@ class DocumentationPluginsManagerSpec extends Specification {
     and:
       operationContext.operationBuilder() >> new OperationBuilder(new CachingOperationNameGenerator())
       operationPlugin.supports(_) >> true
+      operationContext.getDocumentationType() >> Mock(DocumentationType)
     when:
       def sut = customWebPlugins([], [], [operationPlugin])
       def operation = sut.operation(operationContext)
@@ -111,6 +113,7 @@ class DocumentationPluginsManagerSpec extends Specification {
       def paramContext = Mock(ParameterContext)
     and:
       paramContext.parameterBuilder() >> new ParameterBuilder()
+      paramContext.getDocumentationType() >> Mock(DocumentationType)
     when:
       def sut = customWebPlugins()
       def parameter = sut.parameter(paramContext)
@@ -125,6 +128,7 @@ class DocumentationPluginsManagerSpec extends Specification {
     and:
       paramContext.parameterBuilder() >> new ParameterBuilder()
       paramPlugin.supports(_) >> true
+      paramContext.getDocumentationType() >> Mock(DocumentationType)
     when:
       def sut = customWebPlugins([], [], [], [paramPlugin])
       def parameter = sut.parameter(paramContext)

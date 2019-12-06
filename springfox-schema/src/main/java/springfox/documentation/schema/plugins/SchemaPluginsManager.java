@@ -34,10 +34,7 @@ import springfox.documentation.spi.schema.SyntheticModelProviderPlugin;
 import springfox.documentation.spi.schema.contexts.ModelContext;
 import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class SchemaPluginsManager {
@@ -74,21 +71,21 @@ public class SchemaPluginsManager {
 
   public Optional<Model> syntheticModel(ModelContext context) {
     if (syntheticModelProviders.hasPluginFor(context)) {
-      return Optional.of(syntheticModelProviders.getPluginFor(context).create(context));
+      return Optional.of(syntheticModelProviders.getPluginFor(context).map(plugin -> plugin.create(context)).orElse(null));
     }
     return Optional.absent();
   }
 
   public List<ModelProperty> syntheticProperties(ModelContext context) {
     if (syntheticModelProviders.hasPluginFor(context)) {
-      return syntheticModelProviders.getPluginFor(context).properties(context);
+      return syntheticModelProviders.getPluginFor(context).map(plugin -> plugin.properties(context)).orElse(Collections.emptyList());
     }
     return new ArrayList<ModelProperty>();
   }
 
   public Set<ResolvedType> dependencies(ModelContext context) {
     if (syntheticModelProviders.hasPluginFor(context)) {
-      return syntheticModelProviders.getPluginFor(context).dependencies(context);
+      return syntheticModelProviders.getPluginFor(context).map(plugin -> plugin.dependencies(context)).orElse(Collections.emptySet());
     }
     return new HashSet<ResolvedType>();
   }
